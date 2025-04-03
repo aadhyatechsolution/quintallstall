@@ -48,7 +48,6 @@ import VehicleMasterCreate from "./components/Comissions/VehicleMaster/Create";
 import VehicleMasterView from "./components/Comissions/VehicleMaster/View";
 import VehicleMasterEdit from "./components/Comissions/VehicleMaster/Edit";
 
-
 import BlogCreate from "./components/Frontend/Blogs/Create";
 import BlogView from "./components/Frontend/Blogs/View";
 
@@ -80,18 +79,20 @@ import StaffCreate from "./components/Settings/Staff/Create";
 import StaffEdit from "./components/Settings/Staff/Edit";
 import StaffView from "./components/Settings/Staff/View";
 
-import Profile from './components/Settings/Profile';
-
-
+import Profile from "./components/Settings/Profile";
+import Home from "./components/HomePage/Home";
 
 // E-CHART PAGE
-const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
+const AppEchart = Loadable(
+  lazy(() => import("app/views/charts/echarts/AppEchart"))
+);
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
 const routes = [
   { path: "/", element: <Navigate to="dashboard/default" /> },
-  {          
+  { path: "/home", element: <Home /> },
+  {
     element: (
       <AuthGuard>
         <MatxLayout />
@@ -100,85 +101,143 @@ const routes = [
     children: [
       ...materialRoutes,
       // dashboard route
-      { path: "/dashboard/default", element: <Analytics />, auth: authRoles.admin },
-      { path: "/products/ampc/view", element: <AMPCView />},
-      { path: "/products/ampc/create", element: <AMPCCreate />},
-      { path: "/products/product-master/view", element: <ProductMasterView />},
-      { path: "/products/product-master/create", element: <ProductMasterCreate />},
-      { path: "/products/product-master/edit/:id", element: <ProductMasterEdit />},
-      { path: "/products/category/view", element: <CategoryView />},
-      { path: "/products/category/create", element: <CategoryCreate />},
-      { path: "/products/category/edit/:id", element: <CategoryEdit />},
+      {
+        path: "/dashboard/default",
+        element: <Analytics />,
+        auth: authRoles.admin,
+      },
+      { path: "/products/ampc/view", element: <AMPCView /> },
+      { path: "/products/ampc/create", element: <AMPCCreate /> },
+      { path: "/products/product-master/view", element: <ProductMasterView /> },
+      {
+        path: "/products/product-master/create",
+        element: <ProductMasterCreate />,
+      },
+      {
+        path: "/products/product-master/edit/:id",
+        element: <ProductMasterEdit />,
+      },
+      { path: "/products/category/view", element: <CategoryView /> },
+      { path: "/products/category/create", element: <CategoryCreate /> },
+      { path: "/products/category/edit/:id", element: <CategoryEdit /> },
 
-      { path: "/wholeseller/wholeseller-user/create", element: <WholeSellerCreate />},
-      { path: "/wholeseller/wholeseller-user/view", element: <WholeSellerView />},
-      { path: "/wholeseller/wholeseller-kyc", element: <WholeSellerKYCList/>},
+      {
+        path: "/wholeseller/wholeseller-user/create",
+        element: <WholeSellerCreate />,
+      },
+      {
+        path: "/wholeseller/wholeseller-user/view",
+        element: <WholeSellerView />,
+      },
+      { path: "/wholeseller/wholeseller-kyc", element: <WholeSellerKYCList /> },
 
-      { path: "/wholeseller/view-products", element: <ProductList />},
+      { path: "/wholeseller/view-products", element: <ProductList /> },
 
-      { path: "/retailer/retailer-user/create", element: <RetailerCreate />},
-      { path: "/retailer/retailer-user/view", element: <RetailerView />},
-      { path: "/retailer/retailer-kyc", element: <RetailerKYCList/>},
+      { path: "/retailer/retailer-user/create", element: <RetailerCreate /> },
+      { path: "/retailer/retailer-user/view", element: <RetailerView /> },
+      { path: "/retailer/retailer-kyc", element: <RetailerKYCList /> },
 
-      { path: "/delivery/delivery-user/create", element: <DeliveryCreate />},
-      { path: "/delivery/delivery-user/view", element: <DeliveryView />},
-      { path: "/delivery/delivery-user/edit/:id", element: <DeliveryEdit />},
+      { path: "/delivery/delivery-user/create", element: <DeliveryCreate /> },
+      { path: "/delivery/delivery-user/view", element: <DeliveryView /> },
+      { path: "/delivery/delivery-user/edit/:id", element: <DeliveryEdit /> },
 
-      { path: "/orders/orders", element: <Orders />},
-      { path: "/orders/reviews", element: <Reviews />},
+      { path: "/orders/orders", element: <Orders /> },
+      { path: "/orders/reviews", element: <Reviews /> },
 
-      { path: "/report/wholeseller-report", element: <WholeSellerReport />},
+      { path: "/report/wholeseller-report", element: <WholeSellerReport /> },
 
-      { path: "/comissions/comission-master/create", element: <ComissionMasterCreate />},
-      { path: "/comissions/comission-master/view", element: <ComissionMasterView />},
-      { path: "/comissions/comission-master/edit/:id", element: <ComissionMasterEdit />},
+      {
+        path: "/comissions/comission-master/create",
+        element: <ComissionMasterCreate />,
+      },
+      {
+        path: "/comissions/comission-master/view",
+        element: <ComissionMasterView />,
+      },
+      {
+        path: "/comissions/comission-master/edit/:id",
+        element: <ComissionMasterEdit />,
+      },
 
-      { path: "/comissions/platform-comission", element: <PlatformComission />},
-      { path: "/comissions/wage-cost-comission", element: <WageCostComission />},
+      {
+        path: "/comissions/platform-comission",
+        element: <PlatformComission />,
+      },
+      {
+        path: "/comissions/wage-cost-comission",
+        element: <WageCostComission />,
+      },
 
-      { path: "/comissions/vehicle-master/create", element: <VehicleMasterCreate />},
-      { path: "/comissions/vehicle-master/view", element: <VehicleMasterView />},
-      { path: "/comissions/vehicle-master/edit/:id", element: <VehicleMasterEdit />},
+      {
+        path: "/comissions/vehicle-master/create",
+        element: <VehicleMasterCreate />,
+      },
+      {
+        path: "/comissions/vehicle-master/view",
+        element: <VehicleMasterView />,
+      },
+      {
+        path: "/comissions/vehicle-master/edit/:id",
+        element: <VehicleMasterEdit />,
+      },
 
-      { path: "/frontend/blogs/create", element: <BlogCreate />},
-      { path: "/frontend/blogs/view", element: <BlogView />},
+      { path: "/frontend/blogs/create", element: <BlogCreate /> },
+      { path: "/frontend/blogs/view", element: <BlogView /> },
 
-      { path: "/frontend/blog-category/create", element: <BlogCategoryCreate />},
-      { path: "/frontend/blog-category/view", element: <BlogCategoryView />},
-      { path: "/frontend/blog-category/edit/:id", element: <BlogCategoryEdit />},
+      {
+        path: "/frontend/blog-category/create",
+        element: <BlogCategoryCreate />,
+      },
+      { path: "/frontend/blog-category/view", element: <BlogCategoryView /> },
+      {
+        path: "/frontend/blog-category/edit/:id",
+        element: <BlogCategoryEdit />,
+      },
 
-      { path: "/frontend/special-offer/create", element: <SpecialOfferCreate />},
-      { path: "/frontend/special-offer/view", element: <SpecialOfferView />},
-      { path: "/frontend/special-offer/edit/:id", element: <SpecialOfferEdit />},
+      {
+        path: "/frontend/special-offer/create",
+        element: <SpecialOfferCreate />,
+      },
+      { path: "/frontend/special-offer/view", element: <SpecialOfferView /> },
+      {
+        path: "/frontend/special-offer/edit/:id",
+        element: <SpecialOfferEdit />,
+      },
 
-      { path: "/settings/coin-settings/create", element: <CoinSettingsCreate />},
-      { path: "/settings/coin-settings/view", element: <CoinSettingsView />},
-      { path: "/settings/coin-settings/edit/:id", element: <CoinSettingsEdit />},
+      {
+        path: "/settings/coin-settings/create",
+        element: <CoinSettingsCreate />,
+      },
+      { path: "/settings/coin-settings/view", element: <CoinSettingsView /> },
+      {
+        path: "/settings/coin-settings/edit/:id",
+        element: <CoinSettingsEdit />,
+      },
 
-      { path: "/settings/coin-type/create", element: <CoinTypeCreate />},
-      { path: "/settings/coin-type/view", element: <CoinTypeView />},
-      { path: "/settings/coin-type/edit/:id", element: <CoinTypeEdit />},
+      { path: "/settings/coin-type/create", element: <CoinTypeCreate /> },
+      { path: "/settings/coin-type/view", element: <CoinTypeView /> },
+      { path: "/settings/coin-type/edit/:id", element: <CoinTypeEdit /> },
 
-      { path: "/settings/coin-details", element: <CoinDetails />},
-      { path: "/settings/wallet-settings", element: <WalletSettings />},
-      { path: "/settings/tax-slab", element: <TaxSlabCreate />},
+      { path: "/settings/coin-details", element: <CoinDetails /> },
+      { path: "/settings/wallet-settings", element: <WalletSettings /> },
+      { path: "/settings/tax-slab", element: <TaxSlabCreate /> },
 
-      { path: "/settings/roles/create", element: <RoleCreate />},
-      { path: "/settings/roles/view", element: <RoleView />},
-      { path: "/settings/roles/edit/:id", element: <RoleEdit />},
-      
-      { path: "/settings/staff/create", element: <StaffCreate />},
-      { path: "/settings/staff/view", element: <StaffView />},
-      { path: "/settings/staff/edit/:id", element: <StaffEdit />},
+      { path: "/settings/roles/create", element: <RoleCreate /> },
+      { path: "/settings/roles/view", element: <RoleView /> },
+      { path: "/settings/roles/edit/:id", element: <RoleEdit /> },
 
-      { path: "/settings/profile", element: <Profile />},
-      
+      { path: "/settings/staff/create", element: <StaffCreate /> },
+      { path: "/settings/staff/view", element: <StaffView /> },
+      { path: "/settings/staff/edit/:id", element: <StaffEdit /> },
+
+      { path: "/settings/profile", element: <Profile /> },
+
       // { path: "/charts/echarts", element: <AppEchart />, auth: authRoles.editor }
-    ]
+    ],
   },
- 
+
   // session pages route
-  ...sessionRoutes
+  ...sessionRoutes,
 ];
 
 export default routes;
