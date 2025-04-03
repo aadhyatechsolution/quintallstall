@@ -1,22 +1,17 @@
+import React, {useState, useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { TextField, Box, Button, Grid } from "@mui/material";
+import { TextField, Box, Button, Grid, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuth from "app/hooks/useAuth";
+import axiosInstance from "../../../../utils/axiosInstance";
 
-const AddressForm = ({ setFormdata }) => {
-  const { setStep } = useAuth();
-
-  const initialValues = {
-    address: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    shopNumber: "",
-  };
+const AddressForm = ({formData, setFormData, setStep }) => {
+  const [apmcs, setApmcs] = useState([]);
+  const [loadingApmcs, setLoadingApmcs] = useState(true);
 
   const validationSchema = Yup.object().shape({
-    address: Yup.string().required("Address is required!"),
+    apmc: Yup.string(),
+    street: Yup.string().required("Address is required!"),
     city: Yup.string().required("City is required!"),
     state: Yup.string().required("State is required!"),
     postalCode: Yup.string()
@@ -27,41 +22,36 @@ const AddressForm = ({ setFormdata }) => {
       .required("Shop number is required!"),
   });
 
-  // const camelToSnake = (str) => {
-  //   return str.replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`);
-  // };
-
-  // const convertObjectKeysToSnakeCase = (obj) => {
-  //   const newObj = {};
-  //   for (let key in obj) {
-  //     if (obj.hasOwnProperty(key)) {
-  //       const newKey = camelToSnake(key);
-  //       newObj[newKey] = obj[key];
-  //     }
-  //   }
-  //   return newObj;
-  // };
-
   const handleSubmit = async (values) => {
-    setStep(4)
-    setFormdata((formdata)=>{
-      return { ...formdata, ...values };
-    })
-    
-    // const snakeCaseData = convertObjectKeysToSnakeCase(mergedData);
-    try {
-      // await register(snakeCaseData);
-      // navigate("/");
-    } catch (error) {
-      console.error("Registration failed:", error);
+    if(values.role === 'delivery'){
+      setStep('vehicle')
+    }else{
+      setStep('account')
     }
+    setFormData(values);
   };
+  useEffect(() => {
+    const fetchApmcs = async () => {
+      try {
+        const { data } = await axiosInstance.get("/apmc");
+        setApmcs(data);
+      } catch (error) {
+        console.error("Error fetching APMCs:", error);
+      } finally {
+        setLoadingApmcs(false);
+      }
+    };
+
+    fetchApmcs();
+  }, []); 
+    
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formData}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize={true}
     >
       {({
         values,
@@ -73,18 +63,47 @@ const AddressForm = ({ setFormdata }) => {
         isSubmitting,
       }) => (
         <form onSubmit={handleSubmit}>
+           {(values.role === "wholeseller" || values.role === "retailer") && (
+           <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+            <InputLabel>APMC</InputLabel>
+            <Select
+              label="APMC"
+              name="apmc"
+              value={values.apmc}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={Boolean(errors.apmc && touched.apmc)}
+              disabled={loadingApmcs}
+            >
+             {loadingApmcs ? (
+                  <MenuItem value="">Loading...</MenuItem>
+                ) : (
+                  apmcs.map((apmc) => (
+                    <MenuItem key={apmc.id} value={apmc.id}>
+                      {apmc.name}
+                    </MenuItem>
+                  ))
+                )}
+            </Select>
+            {touched.apmc && errors.apmc && (
+              <Box sx={{ color: 'red', fontSize: '0.75rem' }}>
+                {errors.apmc}
+              </Box>
+            )}
+          </FormControl>
+          )}
           <TextField
             fullWidth
             size="small"
             type="text"
-            name="address"
+            name="street"
             label="Address"
             variant="outlined"
             onBlur={handleBlur}
-            value={values.address}
+            value={values.street}
             onChange={handleChange}
-            helperText={touched.address && errors.address}
-            error={Boolean(errors.address && touched.address)}
+            helperText={touched.street && errors.street}
+            error={Boolean(errors.street && touched.street)}
             sx={{ mb: 3 }}
           />
 
@@ -150,19 +169,17 @@ const AddressForm = ({ setFormdata }) => {
           />
 
           <Grid container spacing={2} justifyContent="space-between">
-            {/* Back Button */}
             <Grid item xs={1}>
               <Button
                 fullWidth
                 variant="outlined"
                 color="secondary"
-                onClick={() => setStep(2)}
+                onClick={() => setStep('contact')}
               >
                 Back
               </Button>
             </Grid>
 
-            {/* Submit Button */}
             <Grid item xs={4}>
               <LoadingButton
                 type="submit"

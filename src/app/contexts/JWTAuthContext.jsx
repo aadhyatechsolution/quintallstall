@@ -2,14 +2,12 @@ import { createContext, useEffect, useReducer } from "react";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../../utils/axiosInstance";
 
-// GLOBAL CUSTOM COMPONENTS
 import Loading from "app/components/MatxLoading";
 
 const initialState = {
   user: null,
   isInitialized: false,
-  isAuthenticated: false,
-  step: 1 // 1 = user info form, 2 = OTP form, 3 = address/bank details form
+  isAuthenticated: false
 };
 
 const isValidToken = (accessToken) => {
@@ -77,25 +75,15 @@ export const AuthProvider = ({ children }) => {
 
     setSession(accessToken);
     dispatch({ type: "REGISTER", payload: { user } });
+    return data;
   };
   const generateOtp = async (phone_number) => {
     const { data } = await axiosInstance.post("/auth/generateOtp", { phone_number });
-    const { status } = data;
-    if(status == 'success'){
-      dispatch({ type: "SET_STEP", payload: { step:2 } });
-    }
-    
+    return data;
   };
   const verifyOtp = async (phone_number, otp) => {
     const { data } = await axiosInstance.post("/auth/verifyOtp", {phone_number, otp });
-    const { status } = data;
-    if(status == 'success'){
-      dispatch({ type: "SET_STEP", payload: { step:3 } });
-    }
-    
-  };
-  const setStep = (step) => {
-      dispatch({ type: "SET_STEP", payload: { step } })
+    return data;
   };
   const logout = () => {
     setSession(null);
@@ -143,8 +131,7 @@ export const AuthProvider = ({ children }) => {
       logout, 
       register, 
       generateOtp,
-      verifyOtp,
-      setStep
+      verifyOtp
     }}>
       {children}
     </AuthContext.Provider>

@@ -4,8 +4,8 @@ import { TextField, Button, Grid, Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "app/hooks/useAuth";
 
-const OtpVerificationForm = ({ phoneNumber }) => {
-  const { verifyOtp, setStep } = useAuth(); // Assuming you have a verifyOtp function in useAuth to validate OTP
+const OtpVerificationForm = ({ phoneNumber, setStep }) => {
+  const { verifyOtp } = useAuth(); // Assuming you have a verifyOtp function in useAuth to validate OTP
 
   const initialValues = {
     otp: "",
@@ -19,16 +19,16 @@ const OtpVerificationForm = ({ phoneNumber }) => {
 
   const handleSubmit = async (values) => {
     try {
-      await verifyOtp(phoneNumber, values.otp);
+      const response = await verifyOtp(phoneNumber, values.otp);
+      if(response.status){
+        setStep('address');
+      }
+
     } catch (error) {
       console.error("OTP verification failed:", error);
     }
   };
 
-  // Back button handler
-  const handleBack = () => {
-    setStep(1); // Go back to the previous step
-  };
 
   return (
     <Formik
@@ -68,7 +68,7 @@ const OtpVerificationForm = ({ phoneNumber }) => {
                 fullWidth
                 variant="outlined"
                 color="secondary"
-                onClick={handleBack}
+                onClick={()=>setStep('contact')}
               >
                 Back
               </Button>
