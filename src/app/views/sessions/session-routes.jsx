@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import PrivateRoute from "app/auth/PrivateRoute";
 
 const NotFound = lazy(() => import("./NotFound"));
 const ForgotPassword = lazy(() => import("./ForgotPassword"));
@@ -8,12 +9,13 @@ const FirebaseRegister = lazy(() => import("./register/FirebaseRegister"));
 
 const JwtLogin = lazy(() => import("./login/JwtLogin"));
 const JwtRegister = lazy(() => import("./register/JwtRegister"));
+
 // const Auth0Login = Loadable(lazy(() => import("./login/Auth0Login")));
 
 const sessionRoutes = [
-  { path: "/session/signup", element: <JwtRegister /> },
-  { path: "/session/signin", element: <JwtLogin /> },
-  { path: "/session/forgot-password", element: <ForgotPassword /> },
+  { path: "/session/signup", element: <PrivateRoute> <JwtRegister /> </PrivateRoute> },
+  { path: "/session/signin", element: <PrivateRoute> <JwtLogin /> </PrivateRoute>},
+  { path: "/session/forgot-password", element: <PrivateRoute> <ForgotPassword /> </PrivateRoute>},
   { path: "*", element: <NotFound /> }
 ];
 

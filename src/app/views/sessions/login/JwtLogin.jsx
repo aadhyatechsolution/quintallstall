@@ -48,7 +48,7 @@ const initialValues = {
 
 // form field validation schema
 const validationSchema = Yup.object().shape({
-  phone: Yup.string()
+  phone_number: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone number is not valid")
     .optional(),
   password: Yup.string()
@@ -65,7 +65,7 @@ export default function JwtLogin() {
 
   const handleFormSubmit = async (values) => {
     try {
-      await login(values.email, values.password);
+      await login(values.phone_number, values.email, values.password);
       navigate("/");
     } catch (e) {
       console.error(e);
@@ -97,11 +97,11 @@ export default function JwtLogin() {
                       fullWidth
                       size="small"
                       type="tel"
-                      name="phone"
+                      name="phone_number"
                       label="Phone Number"
                       variant="outlined"
                       placeholder="Enter your phone number"
-                      value={values.phone}
+                      value={values.phone_number}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       helperText={touched.phone && errors.phone}

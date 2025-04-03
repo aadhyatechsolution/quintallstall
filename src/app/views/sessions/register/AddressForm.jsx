@@ -65,7 +65,7 @@ const AddressForm = ({formData, setFormData, setStep }) => {
         <form onSubmit={handleSubmit}>
            {(values.role === "wholeseller" || values.role === "retailer") && (
            <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-            <InputLabel>APMC</InputLabel>
+            <InputLabel>Select APMC</InputLabel>
             <Select
               label="APMC"
               name="apmc"

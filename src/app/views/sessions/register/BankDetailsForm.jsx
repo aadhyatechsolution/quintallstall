@@ -5,7 +5,7 @@ import { TextField, Box, Button, Grid, MenuItem, Select, InputLabel, FormControl
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "app/hooks/useAuth";
 
-const BankDetailsForm = ({ formData, setFormData, initialValues, setStep }) => {
+const BankDetailsForm = ({ formData, setFormData, initialValues, setStep, profileImage}) => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ const BankDetailsForm = ({ formData, setFormData, initialValues, setStep }) => {
     setFormData(values)
     const snakeCaseData = convertObjectKeysToSnakeCase(values);
     try {
-      const response = await register(snakeCaseData); 
+      const response = await register(snakeCaseData, profileImage); 
       if(response.success){
         resetForm()
         setFormData(initialValues);

@@ -137,7 +137,7 @@ const Layout1Topbar = () => {
             menuButton={
               <UserMenu>
                 <Span>
-                  Hi <strong>{user.name}</strong>
+                  Hi <strong>{user.first_name}</strong>
                 </Span>
 
                 <Avatar src={user.avatar} sx={{ cursor: "pointer" }} />

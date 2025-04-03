@@ -46,10 +46,11 @@ export default function JwtRegister() {
   // const { generateOtp, step } = useAuth();
   const [step, setStep ] = useState('contact');
   const [formData, setFormData] = useState(initialValues);
+  const [profileImage, setProfileImage] = useState('');
 
     const renderForm = () => {
       if (step === 'contact') {
-        return (<ContactDetailsForm formData={formData} setFormData={setFormData} setStep={setStep}/>);
+        return (<ContactDetailsForm formData={formData} setFormData={setFormData} setStep={setStep} setProfileImage={setProfileImage}/>);
       } else if (step === 'otp') {
         return (<OtpVerificationForm phoneNumber={formData.phoneNumber} setStep={setStep}/>);
       } else if (step === 'address') {
@@ -57,7 +58,7 @@ export default function JwtRegister() {
       } else if (step === 'vehicle') {
         return <VehicleDetailsForm formData={formData} setFormData={setFormData} setStep={setStep}/>;
       }else if(step === 'account'){
-        return <BankDetailsForm formData={formData} setFormData={setFormData} initialValues={initialValues} setStep={setStep}/>;
+        return <BankDetailsForm formData={formData} setFormData={setFormData} initialValues={initialValues} setStep={setStep} profileImage={profileImage}/>;
       }
     };
   

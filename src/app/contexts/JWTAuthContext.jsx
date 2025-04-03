@@ -11,10 +11,25 @@ const initialState = {
 };
 
 const isValidToken = (accessToken) => {
-  if (!accessToken) return false;
-  const decodedToken = jwtDecode(accessToken);
+  if (!accessToken) {
+    return false;
+  }
 
-  return decodedToken?.id ? true : false;
+  try {
+    const decodedToken = jwtDecode(accessToken);
+    if (!decodedToken?.sub) {
+      return false;
+    }
+    const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) {
+      return false;
+    }
+
+    return true; 
+  } catch (error) {
+    console.error("Token decoding error:", error);
+    return false;
+  }
 };
 
 const setSession = (accessToken) => {
@@ -44,9 +59,6 @@ const reducer = (state, action) => {
       const { user } = action.payload;
       return { ...state, isAuthenticated: true, user };
     }
-    case "SET_STEP": {
-      return { ...state, step: action.payload.step };
-    }
     default: {
       return state;
     }
@@ -61,25 +73,41 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const login = async (email, password) => {
-    const { data } = await axiosInstance.post("/auth/login", { email, password });
-    const { accessToken, user } = data;
+  const login = async (phone_number, email, password) => {
+    const { data } = await axiosInstance.post("/auth/login", {phone_number, email, password });
+    const { accessToken, user, type } = data;
+    if(!type){
+      setSession(accessToken);
+      dispatch({ type: "LOGIN", payload: { user } });
+    }else{
+      console.log('using phone number')
+    }
 
-    setSession(accessToken);
-    dispatch({ type: "LOGIN", payload: { user } });
   };
 
-  const register = async (formdata) => {
-    const { data } = await axiosInstance.post("/auth/register", formdata);
+  const register = async (formdata, profileImage) => {
+    const requestData = new FormData();
+    requestData.append('formData', JSON.stringify(formdata));
+    requestData.append('profileImage', profileImage);
+    
+    const { data } = await axiosInstance.post("/auth/register", requestData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     const { accessToken, user } = data;
 
     setSession(accessToken);
     dispatch({ type: "REGISTER", payload: { user } });
     return data;
   };
-  const generateOtp = async (phone_number) => {
-    const { data } = await axiosInstance.post("/auth/generateOtp", { phone_number });
-    return data;
+  const generateOtp = async (phone_number, email) => {
+    try {
+      const { data } = await axiosInstance.post("/auth/generateOtp", { phone_number, email });
+      return data;
+    } catch (error) {
+      return error.response.data
+    }
   };
   const verifyOtp = async (phone_number, otp) => {
     const { data } = await axiosInstance.post("/auth/verifyOtp", {phone_number, otp });
@@ -97,7 +125,8 @@ export const AuthProvider = ({ children }) => {
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
-          const response = await axiosInstance.get("/api/auth/profile");
+          axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+          const response = await axiosInstance.get("/auth/profile");
           const { user } = response.data;
 
           dispatch({
