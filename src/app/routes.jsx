@@ -8,6 +8,7 @@ import Loadable from "./components/Loadable";
 import MatxLayout from "./components/MatxLayout/MatxLayout";
 import sessionRoutes from "./views/sessions/session-routes";
 import materialRoutes from "app/views/material-kit/MaterialRoutes";
+import storefrontRoutes from "./views/storefront/storefront-routes";
 
 import AMPCView from "./components/Products/AMPC/View";
 import AMPCCreate from "./components/Products/AMPC/Create";
@@ -80,7 +81,7 @@ import StaffEdit from "./components/Settings/Staff/Edit";
 import StaffView from "./components/Settings/Staff/View";
 
 import Profile from "./components/Settings/Profile";
-import Home from "./components/HomePage/Home";
+import Home from "./views/storefront/Home/Home";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -235,9 +236,8 @@ const routes = [
       // { path: "/charts/echarts", element: <AppEchart />, auth: authRoles.editor }
     ],
   },
-
-  // session pages route
   ...sessionRoutes,
+  ...storefrontRoutes,
 ];
 
 export default routes;
