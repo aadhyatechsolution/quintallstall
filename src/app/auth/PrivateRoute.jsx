@@ -3,7 +3,7 @@ import useAuth from "app/hooks/useAuth";
 
 const PrivateRoute = ({ children }) => {
     const { isAuthenticated } = useAuth();
-    return isAuthenticated ? <Navigate to="/" /> : children; 
+    return isAuthenticated ? <Navigate to="/admin" /> : children; 
 };
 
 export default PrivateRoute;
