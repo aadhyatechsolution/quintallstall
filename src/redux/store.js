@@ -27,6 +27,9 @@ import taxSlabReducer from './taxSlabSlice';
 import roleReducer from './roleSlice';
 import staffReducer from './staffSlice';
 
+import authReducer from './auth/authSlice';
+import productReducer from './storefront/catalog/productSlice';
+
 
 const store = configureStore({
   reducer: {
@@ -55,7 +58,10 @@ const store = configureStore({
     wallet:walletReducer,
     taxSlab:taxSlabReducer,
     roles:roleReducer,
-    staff:staffReducer
+    staff:staffReducer,
+
+    auth: authReducer,
+    product: productReducer,
   },
 });
 

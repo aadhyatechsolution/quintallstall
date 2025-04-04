@@ -1,6 +1,6 @@
 import { useContext } from "react";
 // import AuthContext from "app/contexts/FirebaseAuthContext";
-import AuthContext from "app/contexts/JWTAuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function useAuth() {
   const context = useContext(AuthContext);
