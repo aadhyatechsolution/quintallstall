@@ -20,7 +20,7 @@ const OtpVerificationForm = ({ phoneNumber, setStep }) => {
   const handleSubmit = async (values) => {
     try {
       const response = await verifyOtp(phoneNumber, values.otp);
-      if(response.status){
+      if(response.success){
         setStep('address');
       }
 
