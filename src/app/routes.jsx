@@ -80,7 +80,7 @@ import StaffCreate from "./components/Settings/Staff/Create";
 import StaffEdit from "./components/Settings/Staff/Edit";
 import StaffView from "./components/Settings/Staff/View";
 
-import Profile from "./components/Settings/Profile";
+// import Profile from "./components/Settings/Profile";
 import Home from "./views/storefront/Home/Home";
 
 // E-CHART PAGE
@@ -231,7 +231,7 @@ const routes = [
       { path: "/settings/staff/view", element: <StaffView /> },
       { path: "/settings/staff/edit/:id", element: <StaffEdit /> },
 
-      { path: "/settings/profile", element: <Profile /> },
+      // { path: "/settings/profile", element: <Profile /> },
 
       // { path: "/charts/echarts", element: <AppEchart />, auth: authRoles.editor }
     ],
