@@ -15,10 +15,14 @@ import {
   ShoppingCart,
   Phone,
 } from "@mui/icons-material";
+
+import { useNavigate } from "react-router-dom";
+
 import { useState } from "react";
 
 const NavActions = ({ isLargeScreen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
 
   const handleHover = (event) => {
@@ -28,7 +32,13 @@ const NavActions = ({ isLargeScreen }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleLogin = () => {
+    navigate("/session/signin");
+  };
+  const handleRegister = () => {
+    navigate("/session/signup");
+  };
+  
   return (
     <Box
       sx={{
@@ -116,6 +126,7 @@ const NavActions = ({ isLargeScreen }) => {
             }}
           >
             <Button
+            onClick={handleLogin}
               fullWidth
               sx={{
                 justifyContent: "flex-start",
@@ -134,6 +145,7 @@ const NavActions = ({ isLargeScreen }) => {
             }}
           >
             <Button
+            onClick={handleRegister}
               fullWidth
               sx={{
                 justifyContent: "flex-start",
