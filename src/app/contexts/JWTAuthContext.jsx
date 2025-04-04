@@ -73,18 +73,18 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const login = async (phone_number, email, password) => {
-    const { data } = await axiosInstance.post("/auth/login", {phone_number, email, password });
-    const { accessToken, user, type } = data;
-    if(!type){
-      setSession(accessToken);
-      dispatch({ type: "LOGIN", payload: { user } });
-    }else{
-      console.log('using phone number')
-    }
-
+  const login = async (email, password) => {
+    const { data } = await axiosInstance.post("/auth/login", {email, password });
+    const { accessToken, user} = data;
+    setSession(accessToken);
+    dispatch({ type: "LOGIN", payload: { user } });
   };
-
+  const otpLogin = async (phone_number, otp) => {
+    const { data } = await axiosInstance.post("/auth/otpLogin", {phone_number, otp});
+    const { accessToken, user} = data;
+    setSession(accessToken);
+    dispatch({ type: "LOGIN", payload: { user } });
+  };
   const register = async (formdata, profileImage) => {
     const requestData = new FormData();
     requestData.append('formData', JSON.stringify(formdata));
@@ -101,6 +101,14 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: "REGISTER", payload: { user } });
     return data;
   };
+  const generateLoginOtp = async (phone_number) => {
+    try {
+      const { data } = await axiosInstance.post("/auth/generateLoginOtp", {phone_number});
+      return data;
+    } catch (error) {
+      return error.response.data
+    }
+  }
   const generateOtp = async (phone_number, email) => {
     try {
       const { data } = await axiosInstance.post("/auth/generateOtp", { phone_number, email });
@@ -157,6 +165,8 @@ export const AuthProvider = ({ children }) => {
       ...state, 
       method: "JWT", 
       login, 
+      otpLogin,
+      generateLoginOtp,
       logout, 
       register, 
       generateOtp,
