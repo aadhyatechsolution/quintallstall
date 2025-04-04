@@ -60,7 +60,7 @@ export default function ContactDetailsForm({ formData, setFormData, setStep, set
   const handleFormSubmit = async (values) => {
     setFormData(values);
     const data = await generateOtp(values.phoneNumber, values.email);
-    if(data.success){
+    if(data.status == 'success'){
         setStep('otp');
     }else{
       setError(data.message);
