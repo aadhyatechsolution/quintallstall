@@ -1,7 +1,24 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { useSelector } from "react-redux";
+
+// Default props for when Redux isn't implemented yet
+const defaultBannerData = {
+  backgroundImage: "assets/images/banner/banner.png",
+  mainText: "FREE GIFT ANY ORDER",
+  discountText: "70% OFF",
+  buttonText: "SHOP NOW",
+  textColor: "#ffffff",
+  discountColor: "#ffeb3b",
+  buttonColor: "#ff5722",
+  buttonHoverColor: "#e64a19",
+};
 
 const PromoBanner = () => {
+  // When Redux is implemented, replace this line with:
+  // const bannerData = useSelector(state => state.banner) || defaultBannerData;
+  const bannerData = defaultBannerData;
+
   return (
     <Box
       sx={{
@@ -16,10 +33,10 @@ const PromoBanner = () => {
         mb: 4,
       }}
     >
-      {/* Background Image - Replace with your image path */}
+      {/* Background Image */}
       <Box
         component="img"
-        src="/assets/images/promo-banner.jpg"
+        src={bannerData.backgroundImage}
         alt="Promotional Banner"
         sx={{
           position: "absolute",
@@ -30,7 +47,7 @@ const PromoBanner = () => {
         }}
       />
 
-      {/* Dark overlay for better text visibility */}
+      {/* Dark overlay */}
       <Box
         sx={{
           position: "absolute",
@@ -46,7 +63,7 @@ const PromoBanner = () => {
         sx={{
           position: "relative",
           zIndex: 2,
-          color: "white",
+          color: bannerData.textColor,
           p: 3,
           maxWidth: "800px",
         }}
@@ -66,7 +83,7 @@ const PromoBanner = () => {
             textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
           }}
         >
-          FREE GIFT ANY ORDER
+          {bannerData.mainText}
         </Typography>
 
         <Typography
@@ -79,12 +96,12 @@ const PromoBanner = () => {
               md: "5rem",
             },
             lineHeight: 1,
-            color: "#ffeb3b", // Yellow color for emphasis
+            color: bannerData.discountColor,
             textShadow: "3px 3px 6px rgba(0,0,0,0.7)",
             mb: 3,
           }}
         >
-          70% OFF
+          {bannerData.discountText}
         </Typography>
 
         <Button
@@ -95,18 +112,18 @@ const PromoBanner = () => {
             py: 1.5,
             fontSize: "1.1rem",
             fontWeight: "bold",
-            backgroundColor: "#ff5722", // Orange color
+            backgroundColor: bannerData.buttonColor,
             color: "white",
             borderRadius: "4px",
             boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
             "&:hover": {
-              backgroundColor: "#e64a19",
+              backgroundColor: bannerData.buttonHoverColor,
               transform: "translateY(-2px)",
             },
             transition: "all 0.3s ease",
           }}
         >
-          SHOP NOW
+          {bannerData.buttonText}
         </Button>
       </Box>
     </Box>

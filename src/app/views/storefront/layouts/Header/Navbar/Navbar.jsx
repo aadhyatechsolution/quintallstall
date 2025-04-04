@@ -26,15 +26,6 @@ const Navbar = () => {
     { label: "About", path: "/about" },
     { label: "Shop", path: "/shop" },
     { label: "Products", path: "/products" },
-    {
-      label: "Create Account",
-      path: "/register",
-      subItems: [
-        { label: "WholeSeller", path: "/register/wholeseller" },
-        { label: "Retailer", path: "/register/retailer" },
-        { label: "Delivery", path: "/register/delivery" },
-      ],
-    },
     { label: "Blog", path: "/blog" },
     { label: "Contact", path: "/contact" },
   ];
