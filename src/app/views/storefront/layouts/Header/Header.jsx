@@ -1,14 +1,14 @@
 import React from "react";
 import Topbar from "./Topbar";
 import Navbar from "./Navbar/Navbar";
-import OfferCarousel from "app/components/HomePage/Carousel/OfferCarousel";
+import Carousel from "app/views/storefront/Carousel/Carousel";
 
 function Header() {
   return (
     <>
       <Topbar />
       <Navbar />
-      <OfferCarousel />
+      <Carousel />
     </>
   );
 }

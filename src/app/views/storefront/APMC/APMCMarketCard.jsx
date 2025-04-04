@@ -124,7 +124,7 @@ MarketButton.propTypes = {
   isActive: PropTypes.bool,
 };
 
-const MarketGrid = ({
+const APMCMarketGrid = ({
   title = "Our APMC",
   markets = MARKETS,
   onMarketClick = () => {},
@@ -133,7 +133,7 @@ const MarketGrid = ({
   if (!markets?.length) return null;
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 2 }}>
       <Typography
         variant="h4"
         component="h2"
@@ -183,7 +183,7 @@ const MarketGrid = ({
   );
 };
 
-MarketGrid.propTypes = {
+APMCMarketGrid.propTypes = {
   title: PropTypes.string,
   markets: PropTypes.arrayOf(
     PropTypes.shape({
@@ -197,4 +197,4 @@ MarketGrid.propTypes = {
   selectedMarket: PropTypes.number,
 };
 
-export default MarketGrid;
+export default APMCMarketGrid;

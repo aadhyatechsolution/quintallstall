@@ -120,6 +120,9 @@ const ProductSlider = () => {
         "& .slick-slide": {
           px: { xs: 0.5, sm: 1 },
         },
+        "& .slick-list": {
+          padding: "10px 0px 10px 0px",
+        },
       }}
     >
       <Typography
